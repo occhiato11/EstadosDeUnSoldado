@@ -1,0 +1,23 @@
+package soldado;
+
+public class EstadoMuerto implements Estado {
+
+	@Override
+	public String toString() {
+		return "Estado Muerto";
+	}
+
+	@Override
+	public void recibirDisparo(Soldado s) {
+		s.balazos++;
+	}
+
+	@Override
+	public void recibirCuracion(Soldado s) {
+		System.out.println("He revivido!");
+		s.sangre = 5000;
+		s.balazos = 0;
+		s.setEstado(new EstadoSaludable());
+	}
+
+}

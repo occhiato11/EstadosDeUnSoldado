@@ -1,0 +1,107 @@
+package soldado;
+
+public class Soldado {
+
+	Estado status;
+	int balazos;
+	int sangre;
+	EstadoSaludable saludable = new EstadoSaludable();
+	EstadoHerido herido = new EstadoHerido();
+	EstadoMuerto muerto = new EstadoMuerto();
+
+	public Soldado() {
+		status = saludable;
+		balazos = 0;
+		sangre = 5000;
+	}
+
+	void setEstado(Estado e) {
+		this.status = e;
+	}
+
+	Estado getEstado() {
+		return this.status;
+	}
+
+	public String recibioDisparo() {
+		status.recibirDisparo(this);
+		return "El soldado recibio un disparo";
+	}
+
+	public String recibioCuracion() {
+		status.recibirCuracion(this);
+		return "El soldado recibio una curacion";
+	}
+
+	@Override
+	public String toString() {
+		return "Soldado [status = " + status + ", balazos = " + balazos + ", sangre = " + sangre + "]";
+	}
+
+	public class EstadoHerido implements Estado {
+
+		@Override
+		public String toString() {
+			return "Estado Herido";
+		}
+
+		@Override
+		public void recibirDisparo(Soldado s) {
+			System.out.println("Soldado:- AAAAAAHHH");
+			s.balazos++;
+			s.sangre = 0;
+			s.setEstado(s.muerto);
+			balazos += -1;
+		}
+
+		@Override
+		public void recibirCuracion(Soldado s) {
+			System.out.println("Soldado:- Gracias");
+			s.balazos--;
+			s.setEstado(s.saludable);
+		}
+
+	}
+	public class EstadoMuerto implements Estado {
+
+		@Override
+		public String toString() {
+			return "Estado Muerto";
+		}
+
+		@Override
+		public void recibirDisparo(Soldado s) {
+			s.balazos++;
+		}
+
+		@Override
+		public void recibirCuracion(Soldado s) {
+			System.out.println("Soldado:- He revivido!");
+			s.sangre = 5000;
+			s.balazos = 0;
+			s.setEstado(s.saludable);
+		}
+
+	}
+	public class EstadoSaludable implements Estado {
+
+		@Override
+		public String toString() {
+			return "Estado Saludable";
+		}
+
+		@Override
+		public void recibirDisparo(Soldado s) {
+			System.out.println("Soldado:- AAAH");
+			s.balazos++;
+			s.sangre = Math.max(0, s.sangre-100);
+			s.setEstado(s.herido);
+		}
+
+		@Override
+		public void recibirCuracion(Soldado s) {
+			System.out.println("Soldado:- Gracias, pero estoy saludable");
+		}
+		
+	}
+}

@@ -1,0 +1,105 @@
+package soldado;
+
+public class Soldado {
+
+	private Estado status;
+	private int balazos;
+	private int sangre;
+	private EstadoSaludable saludable = new EstadoSaludable();
+	private EstadoHerido herido = new EstadoHerido();
+	private EstadoMuerto muerto = new EstadoMuerto();
+
+	public Soldado() {
+		status = saludable;
+		balazos = 0;
+		sangre = 5000;
+	}
+
+	void setEstado(Estado e) {
+		this.status = e;
+	}
+
+	Estado getEstado() {
+		return this.status;
+	}
+
+	public String recibioDisparo() {
+		status.recibirDisparo(this);
+		return "El soldado recibio un disparo";
+	}
+
+	public String recibioCuracion() {
+		status.recibirCuracion(this);
+		return "El soldado recibio una curacion";
+	}
+
+	@Override
+	public String toString() {
+		return "Soldado [status = " + status + ", balazos = " + balazos + ", sangre = " + sangre + "]";
+	}
+
+	public class EstadoHerido implements Estado {
+
+		@Override
+		public void recibirDisparo(Soldado s) {
+			System.out.println("Soldado:- AAAAAAHHH");
+			balazos++;
+			sangre = 0;
+			status = muerto;
+		}
+
+		@Override
+		public void recibirCuracion(Soldado s) {
+			System.out.println("Soldado:- Gracias");
+			balazos--;
+			status = saludable;
+		}
+
+		@Override
+		public String toString() {
+			return "Estado Herido";
+		}
+	}
+
+	public class EstadoMuerto implements Estado {
+
+		@Override
+		public void recibirDisparo(Soldado s) {
+			balazos++;
+		}
+
+		@Override
+		public void recibirCuracion(Soldado s) {
+			System.out.println("Soldado:- He revivido!");
+			sangre = 5000;
+			balazos = 0;
+			status = saludable;
+		}
+
+		@Override
+		public String toString() {
+			return "Estado Muerto";
+		}
+	}
+
+	public class EstadoSaludable implements Estado {
+
+		@Override
+		public void recibirDisparo(Soldado s) {
+			System.out.println("Soldado:- AAAH");
+			balazos++;
+			sangre = Math.max(0, s.sangre - 100);
+			status = herido;
+		}
+
+		@Override
+		public void recibirCuracion(Soldado s) {
+			System.out.println("Soldado:- Gracias, pero estoy saludable");
+		}
+
+		@Override
+		public String toString() {
+			return "Estado Saludable";
+		}
+	}
+}

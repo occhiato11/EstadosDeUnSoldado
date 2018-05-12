@@ -1,0 +1,82 @@
+package soldado;
+
+public class Soldado {
+
+	Estado status;
+	int balazos;
+	int sangre;
+	EstadoSaludable saludable = new EstadoSaludable();
+	EstadoHerido herido = new EstadoHerido();
+	EstadoMuerto muerto = new EstadoMuerto();
+	
+	public Soldado() {
+		status = saludable;
+		balazos = 0;
+		sangre = 5000;
+	}
+	
+	void setEstado(Estado e) {
+		this.status = e;
+	}
+	
+	Estado getEstado() {
+		return this.status;
+	}
+	
+	public String recibioDisparo() {
+		status.recibirDisparo(this);
+		return "El soldado recibio un disparo";
+	}
+
+	public String recibioCuracion() {
+		status.recibirCuracion(this);
+		return "El soldado recibio una curacion";
+	}
+	
+	@Override
+	public String toString() {
+		return "Soldado [status = " + status + ", balazos = " + balazos + ", sangre = " + sangre + "]";
+	}	
+}
+
+
+
+/*public class Soldado {
+	int sangre;
+	int balazos;
+	boolean saludable;
+
+	Soldado() {
+		this.sangre = 5000;
+		this.balazos = 0;
+		this.saludable = true;
+	}
+	
+	public void recibirDisparo() {
+		if(this.saludable) {
+			System.out.println("AAAAHHHHH");
+			this.sangre = Math.max(0, this.sangre-100);
+			this.saludable = false;
+		} else {
+			System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHHHHH");
+			this.sangre /= 2;
+			
+		}
+		this.balazos++;
+	}
+	
+	public void recibirCuracion() {
+		if(this.saludable) 
+			System.out.println("Gracias, pero estoy saludable");
+		else {
+			System.out.println("Gracias");
+			this.balazos--;
+			this.saludable = true;
+		}
+	}
+	
+	public void () {
+		
+	}
+	
+}*/

@@ -1,0 +1,23 @@
+package soldado;
+
+public class EstadoSaludable implements Estado {
+
+	@Override
+	public String toString() {
+		return "Estado Saludable";
+	}
+
+	@Override
+	public void recibirDisparo(Soldado s) {
+		System.out.println("AAAH");
+		s.balazos++;
+		s.sangre = Math.max(0, s.sangre-100);
+		s.setEstado(new EstadoHerido());
+	}
+
+	@Override
+	public void recibirCuracion(Soldado s) {
+		System.out.println("Gracias, pero estoy saludable");
+	}
+	
+}
