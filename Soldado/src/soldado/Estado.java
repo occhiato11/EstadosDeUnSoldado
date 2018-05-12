@@ -1,7 +1,7 @@
 package soldado;
 
 public interface Estado {
-	public void recibirDisparo(Soldado s);
-	public void recibirCuracion(Soldado s);
+	public Estado recibirDisparo();
+	public Estado recibirCuracion();
 	public String toString();
 }

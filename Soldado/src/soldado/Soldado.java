@@ -5,101 +5,82 @@ public class Soldado {
 	private Estado status;
 	private int balazos;
 	private int sangre;
-	private EstadoSaludable saludable = new EstadoSaludable();
-	private EstadoHerido herido = new EstadoHerido();
-	private EstadoMuerto muerto = new EstadoMuerto();
 
 	public Soldado() {
-		status = saludable;
-		balazos = 0;
-		sangre = 5000;
-	}
-
-	void setEstado(Estado e) {
-		this.status = e;
-	}
-
-	Estado getEstado() {
-		return this.status;
+		this.status = new EstadoSaludable();
+		this.balazos = 0;
+		this.sangre = 5000;
 	}
 
 	public String recibioDisparo() {
-		status.recibirDisparo(this);
+		this.status = this.status.recibirDisparo();
 		return "El soldado recibio un disparo";
 	}
 
 	public String recibioCuracion() {
-		status.recibirCuracion(this);
+		this.status = this.status.recibirCuracion();
 		return "El soldado recibio una curacion";
 	}
 
-	@Override
 	public String toString() {
-		return "Soldado [status = " + status + ", balazos = " + balazos + ", sangre = " + sangre + "]";
+		return "Soldado [status = " + this.status + ", balazos = " + this.balazos + ", sangre = " + this.sangre + "]";
+	}
+
+	public class EstadoSaludable implements Estado {
+
+		public Estado recibirDisparo() {
+			System.out.println("Soldado:- AAAH");
+			balazos++;
+			sangre = Math.max(0, sangre - 100);
+			return new EstadoHerido();
+		}
+
+		public Estado recibirCuracion() {
+			System.out.println("Soldado:- Gracias, pero estoy saludable");
+			return new EstadoSaludable();
+		}
+
+		public String toString() {
+			return "Estoy Saludable";
+		}
 	}
 
 	public class EstadoHerido implements Estado {
 
-		@Override
-		public void recibirDisparo(Soldado s) {
+		public Estado recibirDisparo() {
 			System.out.println("Soldado:- AAAAAAHHH");
 			balazos++;
 			sangre = 0;
-			status = muerto;
+			return new EstadoMuerto();
 		}
 
-		@Override
-		public void recibirCuracion(Soldado s) {
+		public Estado recibirCuracion() {
 			System.out.println("Soldado:- Gracias");
 			balazos--;
-			status = saludable;
+			return new EstadoSaludable();
 		}
 
-		@Override
 		public String toString() {
-			return "Estado Herido";
+			return "Estoy Herido";
 		}
 	}
 
 	public class EstadoMuerto implements Estado {
 
-		@Override
-		public void recibirDisparo(Soldado s) {
+		public Estado recibirDisparo() {
 			balazos++;
+			return new EstadoMuerto();
 		}
 
-		@Override
-		public void recibirCuracion(Soldado s) {
+		public Estado recibirCuracion() {
 			System.out.println("Soldado:- He revivido!");
 			sangre = 5000;
 			balazos = 0;
-			status = saludable;
+			return new EstadoSaludable();
 		}
 
-		@Override
 		public String toString() {
-			return "Estado Muerto";
-		}
-	}
-
-	public class EstadoSaludable implements Estado {
-
-		@Override
-		public void recibirDisparo(Soldado s) {
-			System.out.println("Soldado:- AAAH");
-			balazos++;
-			sangre = Math.max(0, s.sangre - 100);
-			status = herido;
-		}
-
-		@Override
-		public void recibirCuracion(Soldado s) {
-			System.out.println("Soldado:- Gracias, pero estoy saludable");
-		}
-
-		@Override
-		public String toString() {
-			return "Estado Saludable";
+			return "Estoy Muerto";
 		}
 	}
 }
