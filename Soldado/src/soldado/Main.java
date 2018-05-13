@@ -8,27 +8,27 @@ public class Main {
 		System.out.println(soldier);
 		System.out.println();
 
-		System.out.println(soldier.recibioDisparo());
+		soldier.recibioDisparo();
 		System.out.println(soldier);
 		System.out.println();
 		
-		System.out.println(soldier.recibioCuracion());
+		soldier.recibioCuracion();
 		System.out.println(soldier);
 		System.out.println();
 		
-		System.out.println(soldier.recibioDisparo());
+		soldier.recibioDisparo();
 		System.out.println(soldier);
 		System.out.println();
 		
-		System.out.println(soldier.recibioDisparo());		
+		soldier.recibioDisparo();		
 		System.out.println(soldier);
 		System.out.println();
 		
-		System.out.println(soldier.recibioCuracion());
+		soldier.recibioCuracion();
 		System.out.println(soldier);
 		System.out.println();
 		
-		System.out.println(soldier.recibioCuracion());
+		soldier.recibioCuracion();
 		System.out.println(soldier);
 		System.out.println();
 		
